@@ -3,7 +3,9 @@
     <div class="online-count">当前在线人数：{{ onlineCount }}</div>
     <div v-for="item in msgList" class="msg" :key="`${item.time}${item.key}`">
       <div v-if="item.isSelf" class="self">{{ item.msg }} 我</div>
-      <div v-else class="un-self">游客{{ item.key.slice(0, 4) }}：{{ item.msg }}</div>
+      <div v-else class="un-self">
+        游客{{ item.key.slice(0, 4) }}：{{ item.msg }}
+      </div>
     </div>
 
     <div class="bottom">
@@ -14,7 +16,9 @@
         placeholder="说点什么吧..."
         @keyup.enter.native="sendMsg"
       ></el-input>
-      <el-button class="button" type="primary" size="small" @click="sendMsg">发送</el-button>
+      <el-button class="button" type="primary" size="small" @click="sendMsg"
+        >发送</el-button
+      >
     </div>
   </div>
 </template>
@@ -28,7 +32,7 @@ export default {
     return {
       msgList: [],
       msg: "",
-      onlineCount: 0,
+      onlineCount: 0
     };
   },
   methods: {
@@ -36,7 +40,7 @@ export default {
       if (!this.msg || !this.msg.trim()) {
         this.$message({
           type: "error",
-          message: "发送消息不能为空",
+          message: "发送消息不能为空"
         });
         return false;
       }
@@ -50,13 +54,13 @@ export default {
       this.msg = "";
     },
     initWebSocket() {
-      this.ws = new WebSocket("ws://182.16.1.239:8001");
+      this.ws = new WebSocket("ws://webliker.cn/:8001");
 
-      this.ws.onopen = (e) => {
+      this.ws.onopen = e => {
         console.log(e, "建立连接");
       };
 
-      this.ws.onmessage = (e) => {
+      this.ws.onmessage = e => {
         const res = JSON.parse(e.data);
         connecTimes++;
 
@@ -67,7 +71,7 @@ export default {
         if (res.type === "MSG") {
           this.msgList.push({
             ...res,
-            isSelf: this.WebSocketId === res.key,
+            isSelf: this.WebSocketId === res.key
           });
         }
 
@@ -75,11 +79,11 @@ export default {
           this.onlineCount = res.count;
         }
       };
-    },
+    }
   },
   created() {
     this.initWebSocket();
-  },
+  }
 };
 </script>
 
