@@ -21,14 +21,15 @@ const server = https
   .listen(8001);
 
 const wss = new ws.Server({ server: server });
-wss.on("connection", function (conn) {
-  console.log(conn);
+wss.on("connection", function (conn, req) {
+  console.log(req.socket.remoteAddress);
+  const key = req.socket.remoteAddress;
   onlineCount++;
 
   boardcast({
     type: COUNT,
     count: onlineCount,
-    key: conn.key,
+    key,
   });
 
   conn.on("message", function (message) {
@@ -36,7 +37,7 @@ wss.on("connection", function (conn) {
 
     boardcast({
       type: MSG,
-      key: conn.key,
+      key,
       time,
       msg: message,
     });
@@ -48,7 +49,7 @@ wss.on("connection", function (conn) {
     boardcast({
       type: COUNT,
       count: onlineCount,
-      key: conn.key,
+      key,
     });
   });
 });
