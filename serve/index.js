@@ -1,8 +1,8 @@
 let https = require("https");
 let ws = require("ws");
 let fs = require("fs");
-let keypath = process.cwd() + "\\2_chat.webliker.cn.key";
-let certpath = process.cwd() + "\\1_chat.webliker.cn_bundle.crt";
+let keypath = process.cwd() + "/2_chat.webliker.cn.key";
+let certpath = process.cwd() + "/1_chat.webliker.cn_bundle.crt";
 
 let onlineCount = 0;
 const COUNT = "COUNT";
