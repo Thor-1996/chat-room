@@ -4,7 +4,7 @@
     <div v-for="item in msgList" class="msg" :key="`${item.time}${item.key}`">
       <div v-if="item.isSelf" class="self">{{ item.msg }} 我</div>
       <div v-else class="un-self">
-        游客{{ item.key.slice(0, 4) }}：{{ item.msg }}
+        游客{{ item.key.slice(7) || "无名" }}：{{ item.msg }}
       </div>
     </div>
 
