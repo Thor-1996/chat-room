@@ -1,4 +1,4 @@
-let ws = require("nodejs-websocket");
+/* let ws = require("nodejs-websocket");
 let onlineCount = 0;
 const COUNT = "COUNT";
 const MSG = "MSG";
@@ -45,3 +45,29 @@ function boardcast(obj) {
     conn.send(JSON.stringify(obj));
   });
 }
+*/
+
+var https = require("https");
+var ws = require("ws");
+var fs = require("fs");
+var keypath = process.cwd() + "\\2_chat.webliker.cn.key";
+var certpath = process.cwd() + "\\1_chat.webliker.cn_bundle.crt";
+
+var options = {
+  key: fs.readFileSync(keypath),
+  cert: fs.readFileSync(certpath),
+};
+
+var server = https
+  .createServer(options, function (req, res) {
+    res.writeHead(403);
+    res.end("This is a  WebSockets server!\n");
+  })
+  .listen(8001);
+
+var wss = new ws.Server({ server: server });
+wss.on("connection", function (wsConnect) {
+  wsConnect.on("message", function (message) {
+    console.log(message);
+  });
+});

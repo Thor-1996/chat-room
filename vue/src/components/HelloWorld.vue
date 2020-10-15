@@ -54,7 +54,7 @@ export default {
       this.msg = "";
     },
     initWebSocket() {
-      this.ws = new WebSocket("ws://49.232.165.76:8001");
+      this.ws = new WebSocket("wss://webliker.cn:8001/");
 
       this.ws.onopen = e => {
         console.log(e, "建立连接");
