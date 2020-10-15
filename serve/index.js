@@ -5,6 +5,7 @@ let keypath = process.cwd() + "/2_chat.webliker.cn.key";
 let certpath = process.cwd() + "/1_chat.webliker.cn_bundle.crt";
 
 let onlineCount = 0;
+const clientList = [];
 const COUNT = "COUNT";
 const MSG = "MSG";
 
@@ -22,9 +23,11 @@ const server = https
 
 const wss = new ws.Server({ server: server });
 wss.on("connection", function (conn, req) {
-  console.log(req.socket.remoteAddress);
   const key = req.socket.remoteAddress;
-  onlineCount++;
+
+  if (!clientList.includes(key)) {
+    onlineCount++;
+  }
 
   boardcast({
     type: COUNT,
@@ -44,7 +47,9 @@ wss.on("connection", function (conn, req) {
   });
 
   conn.on("close", function () {
-    onlineCount--;
+    if (!clientList.includes(key)) {
+      onlineCount--;
+    }
 
     boardcast({
       type: COUNT,
