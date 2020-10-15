@@ -26,6 +26,7 @@ wss.on("connection", function (conn, req) {
   const key = req.socket.remoteAddress;
 
   if (!clientList.includes(key)) {
+    clientList.push(key);
     onlineCount++;
   }
 
@@ -48,6 +49,7 @@ wss.on("connection", function (conn, req) {
 
   conn.on("close", function () {
     if (!clientList.includes(key)) {
+      clientList.push(key);
       onlineCount--;
     }
 
